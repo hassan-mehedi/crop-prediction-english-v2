@@ -1,0 +1,400 @@
+{
+  "dataset": {
+    "path": "crop_prediction_model_one.csv",
+    "rows": 2200,
+    "columns": 8,
+    "shape": [
+      2200,
+      8
+    ],
+    "column_names": [
+      "N",
+      "P",
+      "K",
+      "temperature",
+      "humidity",
+      "ph",
+      "rainfall",
+      "label"
+    ],
+    "data_types": {
+      "N": "int64",
+      "P": "int64",
+      "K": "int64",
+      "temperature": "float64",
+      "humidity": "float64",
+      "ph": "float64",
+      "rainfall": "float64",
+      "label": "str"
+    },
+    "first_rows": [
+      {
+        "N": 90,
+        "P": 42,
+        "K": 43,
+        "temperature": 20.87974371,
+        "humidity": 82.00274423,
+        "ph": 6.502985292000001,
+        "rainfall": 202.9355362,
+        "label": "rice"
+      },
+      {
+        "N": 85,
+        "P": 58,
+        "K": 41,
+        "temperature": 21.77046169,
+        "humidity": 80.31964408,
+        "ph": 7.038096361,
+        "rainfall": 226.6555374,
+        "label": "rice"
+      },
+      {
+        "N": 60,
+        "P": 55,
+        "K": 44,
+        "temperature": 23.00445915,
+        "humidity": 82.3207629,
+        "ph": 7.840207144,
+        "rainfall": 263.9642476,
+        "label": "rice"
+      },
+      {
+        "N": 74,
+        "P": 35,
+        "K": 40,
+        "temperature": 26.49109635,
+        "humidity": 80.15836264,
+        "ph": 6.980400905,
+        "rainfall": 242.8640342,
+        "label": "rice"
+      },
+      {
+        "N": 78,
+        "P": 42,
+        "K": 42,
+        "temperature": 20.13017482,
+        "humidity": 81.60487287,
+        "ph": 7.628472891,
+        "rainfall": 262.7173405,
+        "label": "rice"
+      }
+    ]
+  },
+  "target": {
+    "column": "label",
+    "unique_class_count": 22,
+    "class_names": [
+      "rice",
+      "maize",
+      "chickpea",
+      "kidneybeans",
+      "pigeonpeas",
+      "mothbeans",
+      "mungbean",
+      "blackgram",
+      "lentil",
+      "pomegranate",
+      "banana",
+      "mango",
+      "grapes",
+      "watermelon",
+      "muskmelon",
+      "apple",
+      "orange",
+      "papaya",
+      "coconut",
+      "cotton",
+      "jute",
+      "coffee"
+    ]
+  },
+  "missing_data": {
+    "total_missing_values": 0,
+    "missing_values_per_column": {
+      "N": 0,
+      "P": 0,
+      "K": 0,
+      "temperature": 0,
+      "humidity": 0,
+      "ph": 0,
+      "rainfall": 0,
+      "label": 0
+    },
+    "rows_containing_missing_values": 0
+  },
+  "duplicates": {
+    "exact_duplicate_rows": 0,
+    "percentage_duplicate_rows": 0.0,
+    "sample_rows": []
+  },
+  "class_balance": {
+    "counts": [
+      {
+        "label": "rice",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "maize",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "chickpea",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "kidneybeans",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "pigeonpeas",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "mothbeans",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "mungbean",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "blackgram",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "lentil",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "pomegranate",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "banana",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "mango",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "grapes",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "watermelon",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "muskmelon",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "apple",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "orange",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "papaya",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "coconut",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "cotton",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "jute",
+        "count": 100,
+        "percentage": 4.545454545454546
+      },
+      {
+        "label": "coffee",
+        "count": 100,
+        "percentage": 4.545454545454546
+      }
+    ],
+    "minimum_class_size": 100,
+    "maximum_class_size": 100,
+    "perfectly_balanced": true,
+    "noticeably_imbalanced": false,
+    "relative_spread_threshold": 0.1,
+    "relative_spread": 0.0,
+    "status": "perfectly balanced"
+  },
+  "feature_ranges": [
+    {
+      "feature": "N",
+      "min": 0.0,
+      "max": 140.0,
+      "mean": 50.551818181818184,
+      "median": 37.0,
+      "standard_deviation": 36.9173338337566,
+      "non_numeric_values": 0,
+      "infinite_values": 0
+    },
+    {
+      "feature": "P",
+      "min": 5.0,
+      "max": 145.0,
+      "mean": 53.36272727272727,
+      "median": 51.0,
+      "standard_deviation": 32.98588273858715,
+      "non_numeric_values": 0,
+      "infinite_values": 0
+    },
+    {
+      "feature": "K",
+      "min": 5.0,
+      "max": 205.0,
+      "mean": 48.14909090909091,
+      "median": 32.0,
+      "standard_deviation": 50.64793054666013,
+      "non_numeric_values": 0,
+      "infinite_values": 0
+    },
+    {
+      "feature": "temperature",
+      "min": 8.825674745,
+      "max": 43.67549305,
+      "mean": 25.616243851779544,
+      "median": 25.5986932,
+      "standard_deviation": 5.063748599958843,
+      "non_numeric_values": 0,
+      "infinite_values": 0
+    },
+    {
+      "feature": "humidity",
+      "min": 14.25803981,
+      "max": 99.98187601,
+      "mean": 71.48177921778637,
+      "median": 80.473145665,
+      "standard_deviation": 22.263811589761083,
+      "non_numeric_values": 0,
+      "infinite_values": 0
+    },
+    {
+      "feature": "ph",
+      "min": 3.504752314,
+      "max": 9.93509073,
+      "mean": 6.469480065256364,
+      "median": 6.42504527,
+      "standard_deviation": 0.7739376880298733,
+      "non_numeric_values": 0,
+      "infinite_values": 0
+    },
+    {
+      "feature": "rainfall",
+      "min": 20.21126747,
+      "max": 298.5601175,
+      "mean": 103.46365541576817,
+      "median": 94.86762427,
+      "standard_deviation": 54.95838852487813,
+      "non_numeric_values": 0,
+      "infinite_values": 0
+    }
+  ],
+  "sanity_checks": {
+    "expected_feature_columns": [
+      "N",
+      "P",
+      "K",
+      "temperature",
+      "humidity",
+      "ph",
+      "rainfall"
+    ],
+    "missing_expected_feature_columns": [],
+    "target_column_present": true,
+    "constant_columns": [],
+    "non_numeric_values_per_feature": {
+      "N": 0,
+      "P": 0,
+      "K": 0,
+      "temperature": 0,
+      "humidity": 0,
+      "ph": 0,
+      "rainfall": 0
+    },
+    "infinite_values_per_feature": {
+      "N": 0,
+      "P": 0,
+      "K": 0,
+      "temperature": 0,
+      "humidity": 0,
+      "ph": 0,
+      "rainfall": 0
+    },
+    "domain_thresholds_applied": false,
+    "domain_threshold_note": "No domain-specific physical thresholds were assumed; non-numeric and infinite feature values are reported directly."
+  },
+  "leakage_risk": {
+    "feature_checks": [
+      {
+        "feature": "N",
+        "identical_to_target": false,
+        "directly_encodes_target": false
+      },
+      {
+        "feature": "P",
+        "identical_to_target": false,
+        "directly_encodes_target": false
+      },
+      {
+        "feature": "K",
+        "identical_to_target": false,
+        "directly_encodes_target": false
+      },
+      {
+        "feature": "temperature",
+        "identical_to_target": false,
+        "directly_encodes_target": false
+      },
+      {
+        "feature": "humidity",
+        "identical_to_target": false,
+        "directly_encodes_target": false
+      },
+      {
+        "feature": "ph",
+        "identical_to_target": false,
+        "directly_encodes_target": false
+      },
+      {
+        "feature": "rainfall",
+        "identical_to_target": false,
+        "directly_encodes_target": false
+      }
+    ],
+    "conflicting_duplicate_feature_groups": 0,
+    "conflicting_duplicate_feature_rows": 0,
+    "obvious_leakage_warning_detected": false,
+    "direct_encoding_rule": "A feature is flagged only when it has a complete one-to-one mapping with the non-missing target classes."
+  }
+}
