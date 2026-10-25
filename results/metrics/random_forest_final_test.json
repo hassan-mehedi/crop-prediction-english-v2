@@ -1,0 +1,18 @@
+{
+  "model": "RandomForestClassifier",
+  "evaluation": "single evaluation on untouched final test set",
+  "test_rows": 440,
+  "class_count": 22,
+  "accuracy": 0.9954545454545455,
+  "macro_f1": 0.9954517027687758,
+  "weighted_f1": 0.9954517027687759,
+  "training_cv_mean_macro_f1": 0.9942924887437211,
+  "selected_parameters": {
+    "classifier__max_depth": null,
+    "classifier__min_samples_leaf": 1,
+    "classifier__n_estimators": 250
+  },
+  "random_seed": 42,
+  "split_dataset_sha256": "54a5a6e5408668e668667efc50de2fc867c1b875e0431b4f54dd331b0a109a4e",
+  "final_test_used_for_model_selection": false
+}

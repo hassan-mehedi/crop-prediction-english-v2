@@ -1,0 +1,13 @@
+rank,mean_macro_f1,std_macro_f1,parameters
+1,0.9942924887437211,0.004782482693809713,"{""classifier__max_depth"": null, ""classifier__min_samples_leaf"": 1, ""classifier__n_estimators"": 250}"
+1,0.9942924887437211,0.004782482693809713,"{""classifier__max_depth"": 20, ""classifier__min_samples_leaf"": 1, ""classifier__n_estimators"": 250}"
+3,0.994282386283005,0.006001809977042492,"{""classifier__max_depth"": 10, ""classifier__min_samples_leaf"": 1, ""classifier__n_estimators"": 100}"
+4,0.9937136490573764,0.005550849628890096,"{""classifier__max_depth"": 10, ""classifier__min_samples_leaf"": 1, ""classifier__n_estimators"": 250}"
+4,0.9937136490573764,0.005550849628890096,"{""classifier__max_depth"": 10, ""classifier__min_samples_leaf"": 2, ""classifier__n_estimators"": 250}"
+6,0.9937033460856128,0.006139964809894294,"{""classifier__max_depth"": null, ""classifier__min_samples_leaf"": 1, ""classifier__n_estimators"": 100}"
+6,0.9937033460856128,0.006139964809894294,"{""classifier__max_depth"": 20, ""classifier__min_samples_leaf"": 1, ""classifier__n_estimators"": 100}"
+8,0.9931256172141619,0.006699458436244007,"{""classifier__max_depth"": null, ""classifier__min_samples_leaf"": 2, ""classifier__n_estimators"": 250}"
+8,0.9931256172141619,0.006699458436244007,"{""classifier__max_depth"": 20, ""classifier__min_samples_leaf"": 2, ""classifier__n_estimators"": 250}"
+10,0.9925252612804438,0.00826373335061484,"{""classifier__max_depth"": 10, ""classifier__min_samples_leaf"": 2, ""classifier__n_estimators"": 100}"
+11,0.9913888976440802,0.007514421840821582,"{""classifier__max_depth"": null, ""classifier__min_samples_leaf"": 2, ""classifier__n_estimators"": 100}"
+11,0.9913888976440802,0.007514421840821582,"{""classifier__max_depth"": 20, ""classifier__min_samples_leaf"": 2, ""classifier__n_estimators"": 100}"
