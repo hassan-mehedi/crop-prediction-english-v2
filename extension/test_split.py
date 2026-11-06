@@ -42,6 +42,21 @@ class EvaluationSplitTests(unittest.TestCase):
             self.assertEqual(first, second)
             self.assertEqual(original, path.read_bytes())
 
+    def test_line_endings_do_not_change_dataset_fingerprint(self):
+        with tempfile.TemporaryDirectory() as directory:
+            dataset = Path(directory) / "data.csv"
+            split_path = Path(directory) / "split.json"
+            source = DATASET_PATH.read_bytes().replace(b"\r\n", b"\n")
+            dataset.write_bytes(source)
+            _, first = prepare_split(dataset, split_path)
+            dataset.write_bytes(source.replace(b"\n", b"\r\n"))
+            _, second = prepare_split(dataset, split_path)
+            self.assertEqual(first, second)
+            self.assertEqual(
+                first["dataset_sha256"],
+                "54a5a6e5408668e668667efc50de2fc867c1b875e0431b4f54dd331b0a109a4e",
+            )
+
     def test_changed_dataset_is_rejected_without_overwrite(self):
         with tempfile.TemporaryDirectory() as directory:
             dataset = Path(directory) / "data.csv"

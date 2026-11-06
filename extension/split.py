@@ -22,6 +22,10 @@ def prepare_split(dataset_path=DATASET_PATH, split_path=SPLIT_PATH):
     """Create once, or verify the saved split without overwriting it."""
     dataset_path, split_path = Path(dataset_path), Path(split_path)
     raw = dataset_path.read_bytes()
+    # Git checkouts may use LF or CRLF. The frozen manifest was created from
+    # CRLF bytes, so normalize line endings to CRLF before hashing to preserve
+    # its fingerprint across operating systems without changing the saved split.
+    canonical_raw = raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")
     data = pd.read_csv(dataset_path)
     required = FEATURES + ["label"]
     if not set(required).issubset(data.columns):
@@ -46,7 +50,7 @@ def prepare_split(dataset_path=DATASET_PATH, split_path=SPLIT_PATH):
         for _, validation in cv.split(training[FEATURES], training["label"])
     ]
     manifest = {
-        "dataset_sha256": hashlib.sha256(raw).hexdigest(),
+        "dataset_sha256": hashlib.sha256(canonical_raw).hexdigest(),
         "row_count": len(data),
         "random_seed": SEED,
         "final_test_fraction": TEST_SIZE,

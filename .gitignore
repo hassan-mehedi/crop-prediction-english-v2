@@ -1,3 +1,6 @@
 .tmp-evaluation-deps/
 __pycache__/
 results/models/
+.venv-legacy/
+.venv-extension/
+results/reproductions/

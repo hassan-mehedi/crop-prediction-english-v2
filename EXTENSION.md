@@ -1,6 +1,6 @@
 ﻿# 2026 Thesis Reassessment
 
-**Status:** Work in progress
+**Status:** Random Forest baseline complete and frozen. Additional research is optional.
 
 This is a later follow-up to the collaborative 2021 BSc thesis. It is separate from, and was not part of, the original submitted thesis.
 
@@ -10,16 +10,15 @@ This reassessment defines the task as supervised 22-class crop suitability class
 
 The dataset contains no crop-yield or productivity measurements, so it does not support yield prediction or claims about the “most productive crop.” This precise framing is deliberate: it improves methodological clarity for the 2026 reassessment while leaving the collaborative 2021 thesis as historical work.
 
-## Planned scope
+## Completed baseline scope
 
-- Dataset audit (implemented)
-- Clean separation of training, model selection, and final testing (split implemented)
-- Stratified cross-validation (training-only folds implemented)
-- Random Forest baseline (implemented); 1–2 comparison models remain
-- Accuracy, macro F1, weighted F1, and confusion matrix (Random Forest baseline implemented)
-- Reproducible seeds, commands, and saved baseline results
+- Dataset audit and saved summary reports
+- Fixed, stratified training / final-test split and training-only cross-validation folds
+- Random Forest hyperparameter selection using macro F1
+- One recorded final-test evaluation, with accuracy, macro F1, weighted F1, classification report, and confusion matrix
+- Saved seeds, split, selection metadata, and baseline results
 
-Explainability, modern boosting models, top-3 recommendations, deployment improvements, and regional validation are optional later work.
+Model comparisons, explainability, modern boosting models, top-3 recommendations, deployment improvements, and regional validation are optional future work. They are not required to complete or report this baseline.
 
 ## The process in plain language
 
@@ -42,12 +41,19 @@ The workflow has two separate checks so the final score stays meaningful:
    choose which study approach works best.
 3. **Save the selected model.** The setting with the best average macro F1 score
    is selected, then the model is trained again using all 1,760 training rows.
-   The fitted model is saved so the evaluation step can load it later.
-4. **Give the model the final test rows once.** `extension.evaluate` asks the
-   saved model to predict crop labels for the 440 rows it has not seen. It
-   compares those predictions with the known labels and saves the results.
-   These final scores are for reporting; they must not be used to change the
-   model settings.
+   The original training workflow saved this fitted model under
+   `results/models/` so the evaluation step could load it.
+4. **Give the model the final test rows once.** The original
+   `extension.evaluate` workflow used the saved model to predict crop labels for
+   the 440 rows it had not seen. It compared those predictions with the known
+   labels and saved the results. These final scores are for reporting; they
+   must not be used to change the model settings.
+
+The fitted model is excluded from Git and is absent from a clean checkout. The
+original one-time training/evaluation scripts therefore cannot reproduce the
+whole workflow in this checkout; the isolated reproduction command described
+below rebuilds the already-selected estimator without changing the saved
+evaluation files.
 
 In short: **learn from training rows, compare settings with training-only
 cross-validation, then do one final check on held-back rows.** Keeping the final
@@ -68,11 +74,33 @@ These scores describe this dataset and its saved split. They do not prove that
 the model will perform equally well in other regions, seasons, or farming
 conditions.
 
+## Environment
+
+The reassessment uses Python 3.14.4, NumPy 2.5.3, pandas 3.0.6, and
+scikit-learn 1.9.1, matching the recorded experiment metadata. All direct and
+resolved runtime packages are pinned in `requirements-extension.txt`. Keep
+this environment separate from the legacy Streamlit app, whose historical
+`model.pkl` requires Python 3.9 and scikit-learn 0.24.1; its pinned packages are
+in `requirements.txt`.
+
+From the repository root in PowerShell:
+
+```powershell
+uv python install 3.14.4
+uv venv --python 3.14.4 .venv-extension
+uv pip install --python .venv-extension\Scripts\python.exe -r requirements-extension.txt
+```
+
 ## Dataset audit
 
-Run from the repository root with `python extension/audit.py`.
+Run from the repository root. Use an isolated output folder to keep the saved
+baseline audit reports under `results/metrics/` unchanged:
 
-Generated files in `results/metrics/`:
+```powershell
+& .\.venv-extension\Scripts\python.exe extension\audit.py --output-dir results\reproductions\audit
+```
+
+The audit command writes these files to `results/reproductions/audit/`:
 
 - `dataset_summary.json`
 - `class_distribution.csv`
@@ -80,12 +108,20 @@ Generated files in `results/metrics/`:
 
 ## Evaluation split
 
-Run `python extension/split.py` from the repository root. This creates
+Run the saved-split check from the repository root:
+
+```powershell
+& .\.venv-extension\Scripts\python.exe -m extension.split
+```
+
+The split is stored in
 `results/metrics/evaluation_split.json` with an 80% training / 20% final-test
 split, stratified by crop label, using fixed random seed `42`. For the current
 dataset this gives 1,760 training rows and 440 final-test rows (80/20 per crop).
 The file saves zero-based dataset row positions, class counts, the dataset
 SHA-256 fingerprint, and five stratified cross-validation validation folds.
+Dataset line endings are canonicalized before fingerprinting so LF and CRLF
+checkouts verify against the same saved split.
 CV positions refer to the saved training-row order, not the original CSV.
 
 Later model-selection code should call `load_training_data()` from
@@ -105,28 +141,21 @@ is allowed. Freeze model configurations before final evaluation; do not revise
 settings or select a winner using final-test scores. The Random Forest baseline
 workflow and its one-time final evaluation are implemented below.
 
-Verify split isolation and repeatability with
-`python -m unittest extension.test_split -v`.
-This requires pandas, NumPy, and scikit-learn in the active Python environment.
-The split was verified with pandas 3.0.6 and scikit-learn 1.9.1. For this
-checkout's local verification dependencies, first run the following in PowerShell:
+Verify split isolation, repeatability, and line-ending independence with:
 
 ```powershell
-$env:PYTHONPATH = Join-Path (Get-Location) '.tmp-evaluation-deps'
-python extension/split.py
-python -m unittest extension.test_split -v
+& .\.venv-extension\Scripts\python.exe -m unittest extension.test_split -v
 ```
 
-The local dependency folder is ignored by Git; other environments should install
-the declared dependencies before running these commands.
+The extension dependencies include pandas, NumPy, and scikit-learn.
 
-## Random Forest baseline
+## Random Forest baseline and saved results
 
-From the repository root, select model settings using only the saved training
-rows and five stratified training-only folds:
+The original one-time workflow selected model settings using only the saved
+training rows and five stratified training-only folds:
 
 ```powershell
-python -m extension.train
+& .\.venv-extension\Scripts\python.exe -m extension.train
 ```
 
 The search compares 12 small parameter combinations (100 or 250 trees, maximum
@@ -142,19 +171,37 @@ Training outputs are `results/models/random_forest_baseline.joblib`,
 chosen settings, cross-validation score, dataset fingerprint, split, and
 software versions. The training script never loads final-test rows.
 
-After reviewing and freezing the selected settings, perform the one-time final
-evaluation:
+Before the final report existed, the saved pipeline was evaluated once with:
 
 ```powershell
-python -m extension.evaluate
+& .\.venv-extension\Scripts\python.exe -m extension.evaluate
 ```
 
 This evaluates the saved pipeline on the 440 final-test rows and writes accuracy,
 macro F1, weighted F1, a per-class classification report, and a confusion matrix
 under `results/metrics/`. The final JSON report prevents another evaluation or
-retraining after test results exist. Do not change settings based on these final
-scores. These outputs are a baseline, not evidence of performance on other
-regions or farming conditions.
+retraining after test results exist. In this checkout the model artifact is
+missing and the final report already exists, so `extension.train` intentionally
+refuses to retrain and `extension.evaluate` cannot load its model. Do not remove
+the guard or change settings based on the saved final scores.
+
+### Reproduce from a clean checkout
+
+Use the saved selection, dataset fingerprint, and split to rebuild the already
+selected estimator and compare its scores with the saved report:
+
+```powershell
+& .\.venv-extension\Scripts\python.exe -m extension.reproduce
+```
+
+This command does not tune or select a model. It fits the 250-tree Random Forest
+on the 1,760 training rows and predicts the same 440-row holdout. The model,
+reproduced metrics, classification report, confusion matrix, and score
+comparison are written under
+`results/reproductions/frozen_random_forest/`, not `results/metrics/`. The
+output directory must not already exist; pass `--output-dir` to use a different
+new directory. This is a reproduction check against the already observed
+holdout, not an independent evaluation or new test result.
 
 Baseline run on the current dataset: the selected settings were 250 trees, no
 maximum depth, and minimum leaf size 1. Mean training cross-validation macro F1

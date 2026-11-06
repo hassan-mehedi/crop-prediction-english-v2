@@ -1,5 +1,6 @@
 """Run dataset-quality checks for the 2026 thesis reassessment."""
 
+import argparse
 import json
 import math
 from pathlib import Path
@@ -51,7 +52,8 @@ def feature_encodes_target(data, feature):
     return bool((class_by_feature == 1).all() and (feature_by_class == 1).all())
 
 
-def main():
+def main(output_dir=METRICS_DIR):
+    output_dir = Path(output_dir)
     if not DATASET_PATH.is_file():
         raise FileNotFoundError(f"Dataset not found at repository path: {DATASET_PATH}")
 
@@ -227,12 +229,12 @@ def main():
         },
     }
 
-    METRICS_DIR.mkdir(parents=True, exist_ok=True)
-    with (METRICS_DIR / "dataset_summary.json").open("w", encoding="utf-8") as output:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with (output_dir / "dataset_summary.json").open("w", encoding="utf-8") as output:
         json.dump(json_safe(summary), output, indent=2, ensure_ascii=False, allow_nan=False)
         output.write("\n")
-    class_distribution.to_csv(METRICS_DIR / "class_distribution.csv", index=False)
-    feature_summary.to_csv(METRICS_DIR / "feature_summary.csv", index=False)
+    class_distribution.to_csv(output_dir / "class_distribution.csv", index=False)
+    feature_summary.to_csv(output_dir / "feature_summary.csv", index=False)
 
     print("Dataset audit summary")
     print(f"Rows: {row_count}")
@@ -243,8 +245,15 @@ def main():
     print(f"Conflicting duplicate-feature rows: {conflicting_feature_rows}")
     print(f"Class distribution: {balance_status}")
     print(f"Obvious leakage warning detected: {'yes' if obvious_leakage else 'no'}")
-    print(f"Audit outputs: {METRICS_DIR.relative_to(REPOSITORY_ROOT)}")
+    print(f"Audit outputs: {output_dir}")
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=METRICS_DIR,
+        help="directory for audit reports (defaults to results/metrics)",
+    )
+    main(parser.parse_args().output_dir)

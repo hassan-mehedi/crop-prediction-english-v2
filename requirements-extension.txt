@@ -1,0 +1,16 @@
+# 2026 reassessment: direct dependency versions recorded in the experiment
+# metadata. Verified with Python 3.14.4.
+numpy==2.5.3
+pandas==3.0.6
+scikit-learn==1.9.1
+
+# Imported directly by extension.train, extension.evaluate, and reproduce.
+joblib==1.6.0
+
+# Runtime dependencies resolved and verified with the recorded package set.
+cloudpickle==3.1.2
+narwhals==2.28.0
+python-dateutil==4.0.0
+scipy==1.18.1
+threadpoolctl==3.7.0
+tzdata==2026.6
